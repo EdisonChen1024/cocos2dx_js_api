@@ -1,0 +1,44 @@
+[	
+	{
+		"id": "preferences",
+		"children":
+		[
+			{
+				"id": "package-settings",
+				"children":
+				[
+					{
+						"caption": "cocos2dx_lua_api",
+						"children":
+						[
+                        	{
+								"command": "open_file", "args":
+								{
+									"file": "${packages}/cocos2dx_lua_api/README.md"
+								},
+								"caption": "README"
+							},
+							{ "caption": "-" },
+							{
+								"command": "open_file", "args":
+								{
+									"file": "${packages}/cocos2dx_lua_api/Main.sublime-menu"
+								},
+								"caption": "EDIT MENU"
+							},
+							{ "caption": "-" },
+							{
+								"command": "open_file", "args":
+								{
+									"file": "${packages}/cocos2dx_lua_api/build.py"
+								},
+								"caption": "view source code"
+							},
+							{ "caption": "-" },
+						]
+					}
+				]
+			}
+		]
+	}
+]
