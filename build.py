@@ -178,40 +178,45 @@ def CreateScriptSnippets():
     # 遍历lua文件
     temp = "// Created On " + datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S") + "\n"
     temp += "{\n"
-    temp += "\"scope\": \"source.lua\",\n"
+    temp += "\"scope\": \"source.js\",\n"
     temp += "\"completions\":[\n"
-    for file in os.listdir(dir_script):
-        if not file.startswith("Deprecated") and  file.endswith(".lua"):
-            api_file = codecs.open(os.path.join(dir_script, file), "r", "utf-8").read()
-            if file.endswith("Constants.lua"):
-                # 查找单行行的常量 cc = XXX
-                normal_consts = normal_const_pattern.finditer(api_file)
-                for normal_const in normal_consts:
-                    lhs = normal_const.group(1)
-                    rhs = normal_const.group(2)
-                    # print("%s = %s" % (lhs, rhs))
-                    temp += "{ \"trigger\": \"%s = %s\", \"contents\": \"%s\" },\n" % (lhs, rhs, lhs)
-                table_consts = table_const_pattern.finditer(api_file)
-                # 查找常量是一个table的情况，找到之后再匹配单行
-                for table_const in table_consts:
-                    table_name = table_const.group(1)
-                    each_table_consts = each_table_const_pattern.finditer(table_const.group(0))
-                    for each_table_const in each_table_consts:
-                        lhs = each_table_const.group(1)
-                        rhs = each_table_const.group(2)
-                        # print("%s.%s = %s" % (table_name, lhs, rhs))
-                        temp += "{ \"trigger\": \"%s.%s = %s\", \"contents\": \"%s.%s\" },\n" % (table_name, lhs, rhs, table_name, lhs)
-            else:
-                script_functions = script_function_pattern.finditer(api_file)
-                for script_function in script_functions:
-                    # print(script_function)
-                    function_name = script_function.group(1)
-                    params = script_function.group(2)
-                    params = params.strip()
-                    # print("%s(%s)" % (function_name, params))
-                    # create a trigger, like this:
-                    # { "trigger": "cc.Image:retain()", "contents": "retain()" },
-                    temp += "{ \"trigger\": \"%s(%s)\", \"contents\": \"%s()\" },\n" % (function_name, params, function_name) 
+    for path, dir_names, file_names in os.walk(dir_script):
+        for file_name in file_names:
+            full_file_name = os.path.join(path, file_name)
+            # print(full_file_name)
+            if not full_file_name.startswith("Deprecated") and  full_file_name.endswith(".lua"):
+                handle_api_file = codecs.open(full_file_name, "r", "utf-8")
+                content = handle_api_file.read()
+                if full_file_name.endswith("Constants.lua"):
+                    # 查找单行行的常量 cc = XXX
+                    normal_consts = normal_const_pattern.finditer(content)
+                    for normal_const in normal_consts:
+                        lhs = normal_const.group(1)
+                        rhs = normal_const.group(2)
+                        # print("%s = %s" % (lhs, rhs))
+                        temp += "{ \"trigger\": \"%s = %s\", \"contents\": \"%s\" },\n" % (lhs, rhs, lhs)
+                    table_consts = table_const_pattern.finditer(content)
+                    # 查找常量是一个table的情况，找到之后再匹配单行
+                    for table_const in table_consts:
+                        table_name = table_const.group(1)
+                        each_table_consts = each_table_const_pattern.finditer(table_const.group(0))
+                        for each_table_const in each_table_consts:
+                            lhs = each_table_const.group(1)
+                            rhs = each_table_const.group(2)
+                            # print("%s.%s = %s" % (table_name, lhs, rhs))
+                            temp += "{ \"trigger\": \"%s.%s = %s\", \"contents\": \"%s.%s\" },\n" % (table_name, lhs, rhs, table_name, lhs)
+                else:
+                    script_functions = script_function_pattern.finditer(content)
+                    for script_function in script_functions:
+                        # print(script_function)
+                        function_name = script_function.group(1)
+                        params = script_function.group(2)
+                        params = params.strip()
+                        # print("%s(%s)" % (function_name, params))
+                        # create a trigger, like this:
+                        # { "trigger": "cc.Image:retain()", "contents": "retain()" },
+                        temp += "{ \"trigger\": \"%s(%s)\", \"contents\": \"%s()\" },\n" % (function_name, params, function_name) 
+                handle_api_file.close()
     temp += "]\n}\n"
     # 写入结果
     handle_output.write(temp)
@@ -223,8 +228,8 @@ def CreateScriptSnippets():
 # --------------------------------------------------------------------------------
 if "__main__" == __name__:
     # CreateAutoSnippets()
-    CreateManualSnippets()
-    # CreateScriptSnippets()
+    # CreateManualSnippets()
+    CreateScriptSnippets()
     # if "nt" == os.name:
     #     print("*********")
     #     print("finish...")
