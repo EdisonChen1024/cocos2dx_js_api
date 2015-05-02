@@ -8,13 +8,13 @@
 				"children":
 				[
 					{
-						"caption": "cocos2dx_lua_api",
+						"caption": "cocos2dx_js_api",
 						"children":
 						[
                         	{
 								"command": "open_file", "args":
 								{
-									"file": "${packages}/cocos2dx_lua_api/README.md"
+									"file": "${packages}/cocos2dx_js_api/README.md"
 								},
 								"caption": "README"
 							},
@@ -22,7 +22,7 @@
 							{
 								"command": "open_file", "args":
 								{
-									"file": "${packages}/cocos2dx_lua_api/Main.sublime-menu"
+									"file": "${packages}/cocos2dx_js_api/Main.sublime-menu"
 								},
 								"caption": "EDIT MENU"
 							},
@@ -30,7 +30,7 @@
 							{
 								"command": "open_file", "args":
 								{
-									"file": "${packages}/cocos2dx_lua_api/build.py"
+									"file": "${packages}/cocos2dx_js_api/build.py"
 								},
 								"caption": "view source code"
 							},
