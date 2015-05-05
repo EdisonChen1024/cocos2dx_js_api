@@ -42,7 +42,9 @@ def CreateAutoSnippets():
             content = handle_api_file.read()
             module_name_results = module_name_pattern.findall(content)
             module_name = module_name_results[0]
-            print("****** module %-4s ******" % module_name)
+            print("******************************************************" )
+            print("file:   %s" % file)
+            print("module: %s" % module_name)
             # 把指针再次重新定位到文件开头
             handle_api_file.seek(0, 0)
             first_find = True
@@ -79,7 +81,7 @@ def CreateAutoSnippets():
                         class_count = class_count + 1
                 else:
                     class_content = class_content + line
-            print("%-3d classes" % class_count)                
+            print("classes:%d" % class_count)                
             handle_api_file.close()
     temp += "]\n}\n"
     # 写入结果
@@ -165,6 +167,7 @@ def CreateManualSnippets():
 # for the dir_script
 # --------------------------------------------------------------------------------
 script_function_pattern = re.compile(r"function\s+([\w\.\:]+)\(([^\)]+)\)")
+# \s*([\w\.]+)\s*=\s*function\s*(\([^\)]+\))
 # Cocos2dConstants.lua中的cc.KeyCode含有很多特殊符号 无能为力
 # 多了一个 KEY_SPACE = ' ', 筛选不掉，这一行应该在table_const_pattern里面才对
 normal_const_pattern = re.compile(r"([\w\.]+)\s*\=\s*([\w\']+)\s+")
