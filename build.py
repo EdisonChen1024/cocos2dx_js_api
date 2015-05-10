@@ -166,7 +166,14 @@ def CreateManualSnippets():
 # --------------------------------------------------------------------------------
 # for the dir_script
 # --------------------------------------------------------------------------------
-script_function_pattern = re.compile(r"function\s+([\w\.\:]+)\(([^\)]+)\)")
+# get the function And args: cc.each And (obj, iterator, context)
+# cc.each = function (obj, iterator, context) 
+function_pattern = re.compile(r"([\w\.\_]+)\s*=\s*function\s*(\([^\{]+)")
+# get the cc.defineGetterSetter:
+# var _proto = cc.Action.prototype;
+# cc.defineGetterSetter(_proto, "tag", _proto.getTag, _proto.setTag);
+getter_setter_pattern = re.compile(r"_proto\s*=\s*([\w\.]+)\.prototype;\s*((cc\.defineGetterSetter[^;]+;\s*){1,})")
+define_pattern = re.compile(r"cc\.defineGetterSetter\([\w]+\,\s*\"([\w]+)\"[^;]+;")
 # \s*([\w\.]+)\s*=\s*function\s*(\([^\)]+\))
 # Cocos2dConstants.lua中的cc.KeyCode含有很多特殊符号 无能为力
 # 多了一个 KEY_SPACE = ' ', 筛选不掉，这一行应该在table_const_pattern里面才对
@@ -187,38 +194,26 @@ def CreateScriptSnippets():
         for file_name in file_names:
             full_file_name = os.path.join(path, file_name)
             # print(full_file_name)
-            if not full_file_name.startswith("Deprecated") and  full_file_name.endswith(".lua"):
-                handle_api_file = codecs.open(full_file_name, "r", "utf-8")
-                content = handle_api_file.read()
-                if full_file_name.endswith("Constants.lua"):
-                    # 查找单行行的常量 cc = XXX
-                    normal_consts = normal_const_pattern.finditer(content)
-                    for normal_const in normal_consts:
-                        lhs = normal_const.group(1)
-                        rhs = normal_const.group(2)
-                        # print("%s = %s" % (lhs, rhs))
-                        temp += "{ \"trigger\": \"%s = %s\", \"contents\": \"%s\" },\n" % (lhs, rhs, lhs)
-                    table_consts = table_const_pattern.finditer(content)
-                    # 查找常量是一个table的情况，找到之后再匹配单行
-                    for table_const in table_consts:
-                        table_name = table_const.group(1)
-                        each_table_consts = each_table_const_pattern.finditer(table_const.group(0))
-                        for each_table_const in each_table_consts:
-                            lhs = each_table_const.group(1)
-                            rhs = each_table_const.group(2)
-                            # print("%s.%s = %s" % (table_name, lhs, rhs))
-                            temp += "{ \"trigger\": \"%s.%s = %s\", \"contents\": \"%s.%s\" },\n" % (table_name, lhs, rhs, table_name, lhs)
-                else:
-                    script_functions = script_function_pattern.finditer(content)
-                    for script_function in script_functions:
-                        # print(script_function)
-                        function_name = script_function.group(1)
-                        params = script_function.group(2)
-                        params = params.strip()
-                        # print("%s(%s)" % (function_name, params))
-                        # create a trigger, like this:
-                        # { "trigger": "cc.Image:retain()", "contents": "retain()" },
-                        temp += "{ \"trigger\": \"%s(%s)\", \"contents\": \"%s()\" },\n" % (function_name, params, function_name) 
+            # if not full_file_name.startswith("Deprecated") and  full_file_name.endswith(".lua"):
+            handle_api_file = codecs.open(full_file_name, "r", "utf-8")
+            content = handle_api_file.read()
+            # 匹配函数
+            results = function_pattern.findall(content)
+            for result in results:
+                function_name = result[0]
+                args          = result[1]
+                while (args.endswith(" ") or args.endswith("\n")):
+                    args = args[0 : (len(args)-1)]
+                temp += "{ \"trigger\": \"%s%s\", \"contents\": \"%s%s\" },\n" % (function_name, args, function_name, args)
+            # 匹配cc.defineGetterSetter()里面定义的属性
+            results = getter_setter_pattern.findall(content)
+            for result in results:
+                class_name = result[0]
+                define_str = result[1]                
+                define_pattern_results = define_pattern.findall(define_str)
+                for define_pattern_result in define_pattern_results:
+                    attr_name = define_pattern_result
+                    temp += "{ \"trigger\": \"%s.%s\", \"contents\": \"%s\" },\n" % (class_name, attr_name, attr_name)
                 handle_api_file.close()
     temp += "]\n}\n"
     # 写入结果
