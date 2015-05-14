@@ -4,9 +4,9 @@ import os
 import re
 import datetime
 
-dir_auto = "auto/api"
-dir_manual = "manual"
-dir_script = "script"
+dir_auto   = "engine_file/auto/api"
+dir_manual = "engine_file/manual"
+dir_script = "engine_file/script"
 file_auto_output = "snippets/auto.sublime-completions"
 file_manual_output = "snippets/manual.sublime-completions"
 file_script_output = "snippets/script.sublime-completions"

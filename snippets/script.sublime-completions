@@ -1,4 +1,4 @@
-// Created On 2015-05-10 16:42:48
+// Created On 2015-05-14 09:47:18
 {
 "scope": "source.js",
 "completions":[
@@ -69,8 +69,8 @@
 { "trigger": "cc.sizePixelsToPoints(sizeInPixels)", "contents": "cc.sizePixelsToPoints(sizeInPixels)" },
 { "trigger": "cc._sizePixelsToPointsOut(sizeInPixels, outSize)", "contents": "cc._sizePixelsToPointsOut(sizeInPixels, outSize)" },
 { "trigger": "cc.checkGLErrorDebug()", "contents": "cc.checkGLErrorDebug()" },
-{ "trigger": "cc.p( x, y )", "contents": "cc.p( x, y )" },
-{ "trigger": "cc._p( x, y )", "contents": "cc._p( x, y )" },
+{ "trigger": "cc.p( x, y )", "contents": "cc.p( x, y )" },
+{ "trigger": "cc._p( x, y )", "contents": "cc._p( x, y )" },
 { "trigger": "cc.pointEqualToPoint(point1, point2)", "contents": "cc.pointEqualToPoint(point1, point2)" },
 { "trigger": "cc.PointZero()", "contents": "cc.PointZero()" },
 { "trigger": "cc.pUnrotate(v1, v2)", "contents": "cc.pUnrotate(v1, v2)" },
@@ -95,13 +95,13 @@
 { "trigger": "cc.pSubIn(v1, v2)", "contents": "cc.pSubIn(v1, v2)" },
 { "trigger": "cc.pAddIn(v1, v2)", "contents": "cc.pAddIn(v1, v2)" },
 { "trigger": "cc.pNormalizeIn(v)", "contents": "cc.pNormalizeIn(v)" },
-{ "trigger": "cc._g( x, y )", "contents": "cc._g( x, y )" },
-{ "trigger": "cc.size(w,h)", "contents": "cc.size(w,h)" },
-{ "trigger": "cc._size(w,h)", "contents": "cc._size(w,h)" },
-{ "trigger": "cc.sizeEqualToSize(size1, size2)", "contents": "cc.sizeEqualToSize(size1, size2)" },
+{ "trigger": "cc._g( x, y )", "contents": "cc._g( x, y )" },
+{ "trigger": "cc.size(w,h)", "contents": "cc.size(w,h)" },
+{ "trigger": "cc._size(w,h)", "contents": "cc._size(w,h)" },
+{ "trigger": "cc.sizeEqualToSize(size1, size2)", "contents": "cc.sizeEqualToSize(size1, size2)" },
 { "trigger": "cc.SizeZero()", "contents": "cc.SizeZero()" },
-{ "trigger": "cc.rect(x,y,w,h)", "contents": "cc.rect(x,y,w,h)" },
-{ "trigger": "cc._rect(x,y,w,h)", "contents": "cc._rect(x,y,w,h)" },
+{ "trigger": "cc.rect(x,y,w,h)", "contents": "cc.rect(x,y,w,h)" },
+{ "trigger": "cc._rect(x,y,w,h)", "contents": "cc._rect(x,y,w,h)" },
 { "trigger": "cc.rectEqualToRect(rect1, rect2)", "contents": "cc.rectEqualToRect(rect1, rect2)" },
 { "trigger": "cc.rectContainsRect(rect1, rect2)", "contents": "cc.rectContainsRect(rect1, rect2)" },
 { "trigger": "cc.rectGetMaxX(rect)", "contents": "cc.rectGetMaxX(rect)" },
@@ -111,8 +111,8 @@
 { "trigger": "cc.rectGetMidY(rect)", "contents": "cc.rectGetMidY(rect)" },
 { "trigger": "cc.rectGetMinY(rect)", "contents": "cc.rectGetMinY(rect)" },
 { "trigger": "cc.rectContainsPoint(rect, point)", "contents": "cc.rectContainsPoint(rect, point)" },
-{ "trigger": "cc.rectIntersectsRect( rectA, rectB )", "contents": "cc.rectIntersectsRect( rectA, rectB )" },
-{ "trigger": "cc.rectOverlapsRect(rectA, rectB)", "contents": "cc.rectOverlapsRect(rectA, rectB)" },
+{ "trigger": "cc.rectIntersectsRect( rectA, rectB )", "contents": "cc.rectIntersectsRect( rectA, rectB )" },
+{ "trigger": "cc.rectOverlapsRect(rectA, rectB)", "contents": "cc.rectOverlapsRect(rectA, rectB)" },
 { "trigger": "cc.rectUnion(rectA, rectB)", "contents": "cc.rectUnion(rectA, rectB)" },
 { "trigger": "cc.rectIntersection(rectA, rectB)", "contents": "cc.rectIntersection(rectA, rectB)" },
 { "trigger": "cc.RectZero()", "contents": "cc.RectZero()" },
