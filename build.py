@@ -174,6 +174,10 @@ function_pattern = re.compile(r"([\w\.\_]+)\s*=\s*function\s*(\([^\{]+)")
 # cc.defineGetterSetter(_proto, "tag", _proto.getTag, _proto.setTag);
 getter_setter_pattern = re.compile(r"_proto\s*=\s*([\w\.]+)\.prototype;\s*((cc\.defineGetterSetter[^;]+;\s*){1,})")
 define_pattern = re.compile(r"cc\.defineGetterSetter\([\w]+\,\s*\"([\w]+)\"[^;]+;")
+# get the extend class: cc.Node.extend
+# cc.Node.extend = cc.Class.extend;
+extend_pattern = re.compile(r"([\w\.]+)\s*=\s*cc\.Class\.extend;")
+
 # \s*([\w\.]+)\s*=\s*function\s*(\([^\)]+\))
 # Cocos2dConstants.lua中的cc.KeyCode含有很多特殊符号 无能为力
 # 多了一个 KEY_SPACE = ' ', 筛选不掉，这一行应该在table_const_pattern里面才对
@@ -214,7 +218,13 @@ def CreateScriptSnippets():
                 for define_pattern_result in define_pattern_results:
                     attr_name = define_pattern_result
                     temp += "{ \"trigger\": \"%s.%s\", \"contents\": \"%s\" },\n" % (class_name, attr_name, attr_name)
-                handle_api_file.close()
+            # 匹配 cc.Node.extend = cc.Class.extend; 中的 cc.Node.extend
+            results = extend_pattern.findall(content)
+            for result in results:
+                temp += "{ \"trigger\": \"%s\", \"contents\": \"%s()\" },\n" % (result, result)
+
+
+            handle_api_file.close()
     temp += "]\n}\n"
     # 写入结果
     handle_output.write(temp)
