@@ -206,8 +206,8 @@ def CreateScriptSnippets():
             for result in results:
                 function_name = result[0]
                 args          = result[1]
-                while (args.endswith(" ") or args.endswith("\n")):
-                    args = args[0 : (len(args)-1)]
+                # 删除空白字符
+                args = args.strip()
                 temp += "{ \"trigger\": \"%s%s\", \"contents\": \"%s%s\" },\n" % (function_name, args, function_name, args)
             # 匹配cc.defineGetterSetter()里面定义的属性
             results = getter_setter_pattern.findall(content)
@@ -222,7 +222,6 @@ def CreateScriptSnippets():
             results = extend_pattern.findall(content)
             for result in results:
                 temp += "{ \"trigger\": \"%s\", \"contents\": \"%s()\" },\n" % (result, result)
-
 
             handle_api_file.close()
     temp += "]\n}\n"
